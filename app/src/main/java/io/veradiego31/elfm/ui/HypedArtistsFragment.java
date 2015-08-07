@@ -10,13 +10,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import io.veradiego31.elfm.R;
+import io.veradiego31.elfm.io.LastFmApiAdapter;
+import io.veradiego31.elfm.io.model.HypedArtistisResponse;
+import io.veradiego31.elfm.ui.adapter.HypedArtistAdapter;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
-public class HypedArtistsFragment extends Fragment {
+public class HypedArtistsFragment extends Fragment implements Callback<HypedArtistisResponse> {
     public static final String LOG_TAG = HypedArtistsFragment.class.getName();
     private RecyclerView mHypedArtistLists;
     public static final int NUM_COLUMNS = 2;
 
+    private HypedArtistAdapter adapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        adapter = new HypedArtistAdapter(getActivity());
+    }
 
     @Nullable
     @Override
@@ -30,5 +44,25 @@ public class HypedArtistsFragment extends Fragment {
 
     private void setupArtistList(){
         mHypedArtistLists.setLayoutManager(new GridLayoutManager(getActivity(), NUM_COLUMNS));
+        mHypedArtistLists.setAdapter(adapter);
+        mHypedArtistLists.addItemDecoration(new ItemOffSetDecoration(getActivity(), R.integer.offset));
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        LastFmApiAdapter.getApiService().getHypedArtists(this);
+    }
+
+    @Override
+    public void success(HypedArtistisResponse hypedArtistisResponse, Response response) {
+        adapter.addAll(hypedArtistisResponse.getArtists());
+    }
+
+    @Override
+    public void failure(RetrofitError error) {
+        error.printStackTrace();
     }
 }
