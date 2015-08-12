@@ -1,6 +1,14 @@
 package io.veradiego31.elfm.io;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import io.veradiego31.elfm.io.deserializer.HypedArtistsDeserializer;
+import io.veradiego31.elfm.io.deserializer.TopArtistisDeserializer;
+import io.veradiego31.elfm.io.model.HypedArtistisResponse;
+import io.veradiego31.elfm.io.model.TopArtistResponse;
 import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
 
 
 public class LastFmApiAdapter {
@@ -10,8 +18,10 @@ public class LastFmApiAdapter {
     public static LastFmApiService getApiService(){
 
         if(API_SERVICE == null){
-            RestAdapter adapter = new RestAdapter.Builder().setEndpoint(ApiConstants.URL_BASE_).
-                    setLogLevel(RestAdapter.LogLevel.BASIC)
+            RestAdapter adapter = new RestAdapter.Builder()
+                    .setEndpoint(ApiConstants.URL_BASE_)
+                    .setLogLevel(RestAdapter.LogLevel.BASIC)
+                    .setConverter(buildLastFmApiGsonConverter())
                     .build();
 
             API_SERVICE = adapter.create(LastFmApiService.class);
@@ -19,5 +29,15 @@ public class LastFmApiAdapter {
         }
 
         return API_SERVICE;
+    }
+
+    private static GsonConverter buildLastFmApiGsonConverter(){
+
+        Gson gsonConv = new GsonBuilder()
+                .registerTypeAdapter(HypedArtistisResponse.class, new HypedArtistsDeserializer())
+                .registerTypeAdapter(TopArtistResponse.class, new TopArtistisDeserializer())
+                .create();
+
+        return new GsonConverter(gsonConv);
     }
 }

@@ -1,4 +1,4 @@
-package io.veradiego31.elfm.ui;
+package io.veradiego31.elfm.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import io.veradiego31.elfm.R;
 import io.veradiego31.elfm.io.LastFmApiAdapter;
 import io.veradiego31.elfm.io.model.HypedArtistisResponse;
+import io.veradiego31.elfm.ui.ItemOffSetDecoration;
 import io.veradiego31.elfm.ui.adapter.HypedArtistAdapter;
 import retrofit.Callback;
 import retrofit.RetrofitError;

@@ -8,5 +8,6 @@
     <color name="primary_dark">#37383C</color>
     <color name="text">#ffeeeeee</color>
     <color name="text_secondary">#B6B6B6</color>
+    <color name="primary_dark_transparent">#82151519</color>
 
 </resources>

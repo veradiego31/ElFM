@@ -1,13 +1,13 @@
 package io.veradiego31.elfm.io.model;
 
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
 import io.veradiego31.elfm.domain.Artista;
 
-
-public class HypedArtistisResponse {
+public class TopArtistResponse {
 
     @SerializedName(JsonKeys.ARTISTS_RESULT)
     HypedArtistsResult results;
